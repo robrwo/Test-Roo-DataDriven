@@ -4,29 +4,24 @@ use v5.10;
 
 use Test::Roo::Role;
 
-use List::Util ();
-use Package::Stash;
-use Path::Tiny qw/ path /;
-use Ref::Util qw/ is_arrayref is_hashref /;
+use Path::Tiny;
+use Ref::Util qw/ is_arrayref /;
 
 use namespace::autoclean;
 
-sub run_data_tests {
-    my ( $class, @args ) = @_;
+requires 'run_tests';
 
-    my %args =
-      ( ( @args == 1 ) && is_hashref( $args[0] ) )
-      ? %{ $args[0] }
-      : @args;
+sub _build_data_files {
+    my ( $class, %args ) = @_;
 
-    $args{match} //= qr/\.dat$/;
+    my $match = $args{match} // qr/\.dat$/;
 
-    my $order = $args{shuffle} ? \&List::Util::shuffle : sub { sort @_ };
-
-    my @files = map { path($_) }
+    my @paths = map { path($_) }
       is_arrayref( $args{files} ) ? @{ $args{files} } : ( $args{files} );
 
-    foreach my $path ( $order->(@files) ) {
+    my @files;
+
+    foreach my $path (@paths) {
 
         die "Path $path does not exist" unless $path->exists;
 
@@ -40,60 +35,77 @@ sub run_data_tests {
             );
 
             while ( my $file = $iter->() ) {
-                next unless $file->basename =~ $args{match};
-                $class->_test_file( $file, %args );
+                next unless $file->basename =~ $match;
+                push @files, $file;
             }
 
         }
         else {
 
-            $class->_test_file( $path, %args );
+            push @files, $path;
 
         }
 
     }
 
+    return [ sort @files ];
 }
 
-sub _test_file {
-    my ( $class, $file, %args ) = @_;
+state $eval = sub { eval $_[0] };
 
-    my $path = $file->absolute;
+sub run_data_tests {
+    my ( $class, @args ) = @_;
+
+    my %args =
+      ( ( @args == 1 ) && is_hashref( $args[0] ) )
+      ? %{ $args[0] }
+      : @args;
 
     state $counter = 0;
 
-    my $package = sprintf( '%s::Sandbox%04u', __PACKAGE__, ++$counter );
-    my $sym     = '$data';
-    my $perl    = "package $package;
-our $sym = do q{$path};
-";
+    $counter++;
+    my $package = __PACKAGE__ . "::Sandbox${counter}";
 
-    state $eval = sub {
-        eval $_[0];
-    };
+    foreach my $file ( @{ $class->_build_data_files(%args) } ) {
 
-    if ( $eval->($perl) ) {
+        my $path = $file->absolute;
 
-        my $stash = Package::Stash->new($package);
-        my $data  = ${ $stash->get_symbol($sym) };
+        if ( my $data = $eval->("package ${package}; do q{${path}};") ) {
 
-        if ( is_arrayref($data) ) {
+            if ( is_arrayref($data) ) {
 
-            foreach my $case (@$data) {
-                $class->run_tests($case);
+                my @cases = @$data;
+                my $i     = 1;
+
+                foreach my $case (@cases) {
+
+                    my $desc = sprintf(
+                        '%s (%u of %u)',
+                        $case->{description} // $file->basename,    #
+                        $i++,                                       #
+                        scalar(@cases)                              #
+                    );
+
+                    $class->run_tests( $desc, $case );
+
+                }
+
+            }
+            else {
+
+                my $desc = $data->{description} // $file->basename;
+
+                $class->run_tests( $desc, $data );
             }
 
         }
         else {
 
-            $class->run_tests($data);
+            die "parse failed on $file: $@" if $@;
+            die "do failed on $file: $!" unless defined $data;
+            die "run failed on $file" unless $data;
 
         }
-
-    }
-    else {
-
-        die $@ // $!;
 
     }
 
