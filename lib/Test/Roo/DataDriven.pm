@@ -61,6 +61,8 @@ sub run_data_tests {
       ? %{ $args[0] }
       : @args;
 
+    my $filter = $args{filter} // sub { $_[0] };
+
     state $counter = 0;
 
     $counter++;
@@ -86,7 +88,7 @@ sub run_data_tests {
                         scalar(@cases)                              #
                     );
 
-                    $class->run_tests( $desc, $case );
+                    $class->run_tests( $desc, $filter->($case) );
 
                 }
 
@@ -95,7 +97,7 @@ sub run_data_tests {
 
                 my $desc = $data->{description} // $file->basename;
 
-                $class->run_tests( $desc, $data );
+                $class->run_tests( $desc, $filter->($data) );
             }
 
         }
