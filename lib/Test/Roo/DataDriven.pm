@@ -11,6 +11,8 @@ use namespace::autoclean;
 
 requires 'run_tests';
 
+use version; our $VERSION = version->declare('v0.0.1');
+
 sub _build_data_files {
     my ( $class, %args ) = @_;
 
