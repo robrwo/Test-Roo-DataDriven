@@ -117,4 +117,188 @@ sub run_data_tests {
 
 }
 
+=head1 NAME
+
+Test::Roo::DataDriven
+
+=head1 SYNOPSIS
+
+  package MyTests
+
+  use Test::Roo;
+
+  use lib 't/lib';
+
+  with qw/
+    MyClass::Test::Role
+    Test::Roo::DataDriven
+    /;
+
+  1;
+
+  package main;
+
+  use Test::More;
+
+  MyTests->run_data_tests(
+    files   => 't/data/myclass',
+    recurse => 1,
+  );
+
+  done_testing;
+
+=head1 DESCRIPTION
+
+This class extends L<Test::Roo> for data-driven tests that are kept in
+separate files.
+
+This is useful when a test has hundreds of test cases, where it is
+impractical to include all of the cases in a single test script.
+
+This also allows different tests to share the test cases.
+
+=head1 METHODS
+
+=head2 C<run_data_tests>
+
+This is called as a class method, and is a wrapper around  the C<run_tests>
+method.  It takes the following arguments:
+
+=over 4
+
+=item C<files>
+
+This is a path or array reference to a list of paths that contain test
+cases.
+
+If a path is a directory, then all test cases in that directory will
+be tested.
+
+=item C<recurse>
+
+When this is true, then any directories in L</files> will be checked
+recursively.
+
+It is false by default.
+
+item C<follow_symlinks>
+
+When this is true, then symlinks in L</files> will be followed.
+
+It is false by default.
+
+=item C<match>
+
+A regular expression to match the names of data files. It defaults to
+C<qr/\.dat$/>.
+
+=item C<filter>
+
+This is a reference to a subroutine that takes a single test case (a
+hash reference).
+
+The subroutine is expected to return a hash reference to a test case.
+
+=back
+
+=head1 DATA FILES
+
+The data files are simple Perl scripts that return a hash reference
+(or array reference of hash references) of contructor values.  For
+example,
+
+  #!/perl
+
+  use Test::Deep;
+
+  +{
+    description => 'Sample test',
+    params => {
+      choices => bag( qw/ first second / ),
+      page    => 1,
+    },
+  };
+
+Notice in the above example, we are using the C<bag> function from
+L<Test::Deep>, so we have to import the module into our test case to
+ensure that it compiles correctly.
+
+Data files can contain multiple test cases:
+
+  #!/perl
+
+  use Test::Deep;
+
+  [
+
+    {
+      description => 'Sample test',
+      params => {
+        choices => bag( qw/ first second / ),
+        page    => 1,
+      },
+    },
+
+    {
+      description => 'Another test',
+      params => {
+        choices => bag( qw/ second third / ),
+        page    => 2,
+      },
+    },
+
+  ];
+
+The data files can also include scripts to generate test cases:
+
+  #!/perl
+
+  sub generate_cases {
+    ...
+  };
+
+  [
+    generate_cases( page => 1 ),
+    generate_cases( page => 2 ),
+  ];
+
+=head1 KNOWN ISSUES
+
+=head2 Skipping test cases
+
+Skipping a test case in your test class, e.g.
+
+  sub BUILD {
+    my ($self) = @_;
+
+    ...
+
+    plan skip_all => "Cannot test" if $some_condition;
+
+  }
+
+will stop all remaining tests from running.
+
+=head1 SEE ALSO
+
+L<Test::Roo>
+
+=head1 AUTHOR
+
+Robert Rothenberg <rrwo@cpan.org>
+
+The initial development of this module was sponsored by Science Photo
+Library L<https://www.sciencephoto.com>.
+
+=head2 Contributors
+
+Aaron Crane <arc@cpan.org>
+
+=head1 LICENSE
+
+This library is free software and may be distributed under the same
+terms as perl itself. See l<http://dev.perl.org/licenses/>.
+
+=cut
+
 1;
