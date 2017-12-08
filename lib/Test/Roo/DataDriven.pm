@@ -72,6 +72,8 @@ sub run_data_tests {
 
         my $path = $file->absolute;
 
+        note "Data: $file";
+
         if ( my $data = $eval->("package ${package}; do q{${path}};") ) {
 
             if ( is_arrayref($data) ) {
