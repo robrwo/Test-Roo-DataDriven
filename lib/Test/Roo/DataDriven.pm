@@ -157,6 +157,8 @@ impractical to include all of the cases in a single test script.
 
 This also allows different tests to share the test cases.
 
+=for readme stop
+
 =head1 METHODS
 
 =head2 C<run_data_tests>
@@ -278,6 +280,8 @@ Skipping a test case in your test class, e.g.
   }
 
 will stop all remaining tests from running.
+
+=for readme continue
 
 =head1 SEE ALSO
 
