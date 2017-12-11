@@ -1,5 +1,7 @@
 package Test::Roo::DataDriven;
 
+# ABSTRACT: simple data-driven tests with Test::Roo
+
 use v5.10;
 
 use Test::Roo::Role;
@@ -10,8 +12,6 @@ use Ref::Util qw/ is_arrayref /;
 use namespace::autoclean;
 
 requires 'run_tests';
-
-use version; our $VERSION = version->declare('v0.0.1');
 
 sub _build_data_files {
     my ( $class, %args ) = @_;
