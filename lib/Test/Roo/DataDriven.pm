@@ -178,6 +178,12 @@ cases.
 If a path is a directory, then all test cases in that directory will
 be tested.
 
+The files are expected to be executable Perl snippets that return a
+hash reference or an array reference of hash references.  The keys
+should correspond to the attributes of the L<Test::Roo> class.
+
+See L</DATA FILES> below.
+
 =item C<recurse>
 
 When this is true, then any directories in L</files> will be checked
@@ -224,8 +230,10 @@ use
 =head1 DATA FILES
 
 The data files are simple Perl scripts that return a hash reference
-(or array reference of hash references) of contructor values.  For
-example,
+(or array reference of hash references) of constructor values for the
+L<Test::Roo> class..
+
+For example,
 
   #!/perl
 
@@ -242,6 +250,9 @@ example,
 Notice in the above example, we are using the C<bag> function from
 L<Test::Deep>, so we have to import the module into our test case to
 ensure that it compiles correctly.
+
+Note that there is no performance loss in repeating module imports in
+every test case.
 
 Data files can contain multiple test cases:
 
