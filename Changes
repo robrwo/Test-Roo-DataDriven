@@ -10,6 +10,9 @@ Revision history for Test::Roo::DataDriven
   - Added MANIFEST.SKIP to remove backup files and cruft from the
     distribution.
 
+  [Tests]
+  - Added various author/release tests.
+
 v0.1.1    2017-12-14 13:48:51+00:00 Europe/London
   [Tests]
   - Explicitly add test requirements for modules used by the test
