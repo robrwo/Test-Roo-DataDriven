@@ -56,4 +56,4 @@ Aaron Crane <arc@cpan.org>
 # LICENSE
 
 This library is free software and may be distributed under the same
-terms as perl itself. See l&lt;http://dev.perl.org/licenses/>.
+terms as perl itself. See [http://dev.perl.org/licenses/](http://dev.perl.org/licenses/).
