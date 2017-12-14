@@ -2,7 +2,7 @@ package Test::Roo::DataDriven;
 
 # ABSTRACT: simple data-driven tests with Test::Roo
 
-use v5.10;
+use v5.10.1;
 
 use Test::Roo::Role;
 
@@ -55,8 +55,6 @@ sub _build_data_files {
     return [ sort @files ];
 }
 
-state $eval = sub { eval $_[0] }; ## no critic (ProhibitStringyEval)
-
 sub run_data_tests {
     my ( $class, @args ) = @_;
 
@@ -73,6 +71,8 @@ sub run_data_tests {
     my $package = __PACKAGE__ . "::Sandbox${counter}";
 
     foreach my $file ( @{ $class->_build_data_files(%args) } ) {
+
+        state $eval = sub { eval $_[0] }; ## no critic (ProhibitStringyEval)
 
         my $path = $file->absolute;
 
