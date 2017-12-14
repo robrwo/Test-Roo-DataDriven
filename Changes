@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+
+v0.1.2    2017-12-14 17:50:40+00:00 Europe/London
   [Documentation]
   - Fix typo in the POD markup.
 
