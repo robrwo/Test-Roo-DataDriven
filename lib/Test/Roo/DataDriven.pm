@@ -252,7 +252,8 @@ L<Test::Deep>, so we have to import the module into our test case to
 ensure that it compiles correctly.
 
 Note that there is no performance loss in repeating module imports in
-every test case.
+every test case. However, you may want to use a module like L<ToolSet>
+to import common packages.
 
 Data files can contain multiple test cases:
 
