@@ -13,7 +13,7 @@ use namespace::autoclean;
 
 requires 'run_tests';
 
-our $VERSION = 'v0.1.1';
+our $VERSION = 'v0.1.2';
 
 sub _build_data_files {
     my ( $class, %args ) = @_;
