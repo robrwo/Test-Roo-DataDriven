@@ -337,7 +337,7 @@ Aaron Crane <arc@cpan.org>
 =head1 LICENSE
 
 This library is free software and may be distributed under the same
-terms as perl itself. See l<http://dev.perl.org/licenses/>.
+terms as perl itself. See L<http://dev.perl.org/licenses/>.
 
 =cut
 
