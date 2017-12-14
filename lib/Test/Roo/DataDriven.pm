@@ -55,7 +55,7 @@ sub _build_data_files {
     return [ sort @files ];
 }
 
-state $eval = sub { eval $_[0] };
+state $eval = sub { eval $_[0] }; ## no critic (ProhibitStringyEval)
 
 sub run_data_tests {
     my ( $class, @args ) = @_;
