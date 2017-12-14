@@ -94,7 +94,7 @@ sub run_data_tests {
                         scalar(@cases)                              #
                     );
 
-                    $class->run_tests( $desc, $filter->($case) );
+                    $class->run_tests( $desc, $filter->($case, $file, $i) );
 
                 }
 
@@ -103,7 +103,7 @@ sub run_data_tests {
 
                 my $desc = $data->{description} // $file->basename;
 
-                $class->run_tests( $desc, $filter->($data) );
+                $class->run_tests( $desc, $filter->($data, $file) );
             }
 
         }
@@ -198,10 +198,26 @@ C<qr/\.dat$/>.
 
 =item C<filter>
 
-This is a reference to a subroutine that takes a single test case (a
-hash reference).
+This is a reference to a subroutine that takes a single test case as a
+hash reference, as well as the data file and case index in that file.
 
 The subroutine is expected to return a hash reference to a test case.
+
+For example, if you wanted to add the data file and index, you might
+use
+
+  MyTests->run_data_tests(
+    filter = sub {
+        my ($test, $file, $index) = @_;
+        my %args = (
+            %$test,                # avoid side-effects
+            data_file  => "$file", # stringify Path::Tiny
+            data_index => $index,  # undef if none
+        );
+        return \%args;
+    },
+    ...
+  );
 
 =back
 
