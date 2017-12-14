@@ -4,6 +4,9 @@ Revision history for Test::Roo::DataDriven
   [Tests]
   - Added various author/release tests.
 
+  - Increased minimum version of Time::Piece so that tests pass on
+    Perl v5.10.
+
 v0.1.2    2017-12-14 17:50:40+00:00 Europe/London
   [Documentation]
   - Fix typo in the POD markup.
