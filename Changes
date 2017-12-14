@@ -1,6 +1,13 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Tests]
+  - Explicitly add test requirements for modules used by the test
+    data.
+
+  [Documentation]
+  - Add Known issue about prerequisite scanners and module imports in
+    test data.
 
 v0.1.0    2017-12-14 13:21:37+00:00 Europe/London
   - Initial release

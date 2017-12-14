@@ -310,6 +310,13 @@ Skipping a test case in your test class, e.g.
 
 will stop all remaining tests from running.
 
+=head2 Prerequisite Scanners
+
+Prerequisite scanners used for build tools may not recognise modules
+used in the L</DATA FILES>.  To work around this, use the modules as
+well in the test class or explicitly add them to the distribution's
+metadata.
+
 =for readme continue
 
 =head1 SEE ALSO
