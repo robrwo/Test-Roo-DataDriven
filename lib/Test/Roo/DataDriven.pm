@@ -7,7 +7,7 @@ use v5.10.1;
 use Test::Roo::Role;
 
 use Path::Tiny;
-use Ref::Util qw/ is_arrayref /;
+use Ref::Util qw/ is_arrayref is_hashref /;
 
 use namespace::autoclean;
 
@@ -205,11 +205,16 @@ sub run_data_tests {
                 }
 
             }
-            else {
+            elsif ( is_hashref($data) ) {
 
                 my $desc = $data->{description} // $file->basename;
 
                 $class->run_tests( $desc, $filter->( $data, $file ) );
+            }
+            else {
+
+                die "unsupported data type: " . ref($data);
+
             }
 
         }
