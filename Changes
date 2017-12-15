@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Toolchain]
+  - Modify dist.ini to via double-tagging on releases, #3.
 
 v0.1.3    2017-12-15 16:21:07+00:00 Europe/London
   [Documentation]
