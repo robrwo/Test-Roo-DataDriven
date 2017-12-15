@@ -151,7 +151,8 @@ C<qr/\.dat$/>.
 =item C<filter>
 
 This is a reference to a subroutine that takes a single test case as a
-hash reference, as well as the data file and case index in that file.
+hash reference, as well as the data file (L<Path::Tiny>) and case
+index in that file.
 
 The subroutine is expected to return a hash reference to a test case.
 
@@ -182,6 +183,8 @@ For example, if the data files were in JSON format:
     match  => qr/\.json$/,
     parser => sub { decode_json( $_[0]->slurp_raw ) },
   );
+
+Note that the argument is a L<Path::Tiny> object.
 
 Added in v0.2.0.
 

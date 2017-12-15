@@ -6,6 +6,10 @@ Revision history for Test::Roo::DataDriven
 
   - Add the parser option to support alternative data file formats.
 
+  [Documentation]
+  - Note that the file argument in for the filter and parser options
+    is a Path::Tiny object.
+
   [Other Changes]
   - Change internal _build_data_files method to use a hash reference.
 
