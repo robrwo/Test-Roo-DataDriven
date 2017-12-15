@@ -6,6 +6,7 @@ use v5.10.1;
 
 use Test::Roo::Role;
 
+use curry;
 use Path::Tiny;
 use Ref::Util qw/ is_arrayref is_hashref /;
 
@@ -93,6 +94,19 @@ sub _build_data_files {
     return [ sort @files ];
 }
 
+sub _parse_data_file {
+    my ( $class, $file ) = @_;
+
+    my $path = $file->absolute;
+
+    state $eval = sub { eval $_[0] };    ## no critic (ProhibitStringyEval)
+    state $counter = 0;
+
+    my $package = __PACKAGE__ . "::Sandbox" . $counter++;
+
+    $eval->("package ${package}; do q{${path}};");
+}
+
 =for readme stop
 
 =method C<run_data_tests>
@@ -157,6 +171,20 @@ use
     ...
   );
 
+=item C<parser>
+
+By default, the data files are Perl snippets. If the data files exist
+in a different format, then an alternative parser can be used.
+
+For example, if the data files were in JSON format:
+
+  MyTests->run_data_tests(
+    match  => qr/\.json$/,
+    parser => sub { decode_json( $_[0]->slurp_raw ) },
+  );
+
+Added in v0.2.0.
+
 =back
 
 =cut
@@ -170,21 +198,13 @@ sub run_data_tests {
       : @args;
 
     my $filter = $args{filter} // sub { $_[0] };
+    my $parser = $args{parser} // $class->curry::_parse_data_file;
 
-    state $counter = 0;
-
-    $counter++;
-    my $package = __PACKAGE__ . "::Sandbox${counter}";
-
-    foreach my $file ( @{ $class->_build_data_files(%args) } ) {
-
-        state $eval = sub { eval $_[0] };    ## no critic (ProhibitStringyEval)
-
-        my $path = $file->absolute;
+    foreach my $file ( @{ $class->_build_data_files( %args ) } ) {
 
         note "Data: $file";
 
-        if ( my $data = $eval->("package ${package}; do q{${path}};") ) {
+        if ( my $data = $parser->($file) ) {
 
             if ( is_arrayref($data) ) {
 
