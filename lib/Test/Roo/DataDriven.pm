@@ -255,9 +255,9 @@ sub run_data_tests {
 
 =head1 DATA FILES
 
-The data files are simple Perl scripts that return a hash reference
-(or array reference of hash references) of constructor values for the
-L<Test::Roo> class..
+Unless the default L</parser> is changed, the data files are simple
+Perl scripts that return a hash reference (or array reference of hash
+references) of constructor values for the L<Test::Roo> class.
 
 For example,
 
@@ -273,7 +273,7 @@ For example,
     },
   };
 
-Notice in the above example, we are using the C<bag> function from
+In the above example, we are using the C<bag> function from
 L<Test::Deep>, so we have to import the module into our test case to
 ensure that it compiles correctly.
 
@@ -319,6 +319,10 @@ The data files can also include scripts to generate test cases:
     generate_cases( page => 1 ),
     generate_cases( page => 2 ),
   ];
+
+Each datafile is loaded into a unique namespace. However, there is
+nothing preventing the datafiles from modifying variables in other
+namespaces, or even doing anything else.
 
 =head1 KNOWN ISSUES
 
