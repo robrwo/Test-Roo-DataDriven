@@ -1,6 +1,6 @@
 # NAME
 
-Test::Roo::DataDriven
+Test::Roo::DataDriven - Simple data-driven tests with Test::Roo.
 
 # SYNOPSIS
 
