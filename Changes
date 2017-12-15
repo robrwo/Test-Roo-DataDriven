@@ -1,6 +1,9 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Documentation]
+  - Tidied up abstract in pod as reported by CPANTS (Mohammad S Anwar)
+
   [Tests]
   - Added various author/release tests.
 
