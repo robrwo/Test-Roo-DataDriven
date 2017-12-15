@@ -121,7 +121,7 @@ sub run_data_tests {
 
 =head1 NAME
 
-Test::Roo::DataDriven
+Test::Roo::DataDriven - Simple data-driven tests with Test::Roo.
 
 =head1 SYNOPSIS
 
