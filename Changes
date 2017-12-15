@@ -6,6 +6,9 @@ Revision history for Test::Roo::DataDriven
 
   - Add the parser option to support alternative data file formats.
 
+  [Other Changes]
+  - Change internal _build_data_files method to use a hash reference.
+
 v0.1.4    2017-12-15 16:34:15+00:00 Europe/London
   [Toolchain]
   - Modify dist.ini to via double-tagging on releases, #3.

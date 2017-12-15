@@ -55,12 +55,12 @@ This also allows different tests to share the test cases.
 =cut
 
 sub _build_data_files {
-    my ( $class, %args ) = @_;
+    my ( $class, $args ) = @_;
 
-    my $match = $args{match} // qr/\.dat$/;
+    my $match = $args->{match} // qr/\.dat$/;
 
     my @paths = map { path($_) }
-      is_arrayref( $args{files} ) ? @{ $args{files} } : ( $args{files} );
+      is_arrayref( $args->{files} ) ? @{ $args->{files} } : ( $args->{files} );
 
     my @files;
 
@@ -72,8 +72,8 @@ sub _build_data_files {
 
             my $iter = $path->iterator(
                 {
-                    recurse         => $args{recurse}         || 0,
-                    follow_symlinks => $args{follow_symlinks} || 0,
+                    recurse         => $args->{recurse}         || 0,
+                    follow_symlinks => $args->{follow_symlinks} || 0,
                 }
             );
 
@@ -200,7 +200,7 @@ sub run_data_tests {
     my $filter = $args{filter} // sub { $_[0] };
     my $parser = $args{parser} // $class->curry::_parse_data_file;
 
-    foreach my $file ( @{ $class->_build_data_files( %args ) } ) {
+    foreach my $file ( @{ $class->_build_data_files( \%args ) } ) {
 
         note "Data: $file";
 
