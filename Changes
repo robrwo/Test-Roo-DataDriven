@@ -10,6 +10,12 @@ Revision history for Test::Roo::DataDriven
   - Increased minimum version of Time::Piece so that tests pass on
     Perl v5.10.
 
+  [Toolchain]
+  - Using Pod::Weaver to build the documentation.
+
+  - Using ReadmeAnyFromPod plugin to build the README, since it seems
+    to work better with Pod::Weaver plugin.
+
 v0.1.2    2017-12-14 17:50:40+00:00 Europe/London
   [Documentation]
   - Fix typo in the POD markup.

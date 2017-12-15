@@ -1,32 +1,38 @@
 # NAME
 
-Test::Roo::DataDriven - Simple data-driven tests with Test::Roo.
+Test::Roo::DataDriven - simple data-driven tests with Test::Roo
+
+# VERSION
+
+version v0.1.3
 
 # SYNOPSIS
 
-    package MyTests
+```perl
+package MyTests
 
-    use Test::Roo;
+use Test::Roo;
 
-    use lib 't/lib';
+use lib 't/lib';
 
-    with qw/
-      MyClass::Test::Role
-      Test::Roo::DataDriven
-      /;
+with qw/
+  MyClass::Test::Role
+  Test::Roo::DataDriven
+  /;
 
-    1;
+1;
 
-    package main;
+package main;
 
-    use Test::More;
+use Test::More;
 
-    MyTests->run_data_tests(
-      files   => 't/data/myclass',
-      recurse => 1,
-    );
+MyTests->run_data_tests(
+  files   => 't/data/myclass',
+  recurse => 1,
+);
 
-    done_testing;
+done_testing;
+```
 
 # DESCRIPTION
 
@@ -38,9 +44,188 @@ impractical to include all of the cases in a single test script.
 
 This also allows different tests to share the test cases.
 
+# METHODS
+
+## `run_data_tests`
+
+This is called as a class method, and is a wrapper around  the `run_tests`
+method.  It takes the following arguments:
+
+- `files`
+
+    This is a path or array reference to a list of paths that contain test
+    cases.
+
+    If a path is a directory, then all test cases in that directory will
+    be tested.
+
+    The files are expected to be executable Perl snippets that return a
+    hash reference or an array reference of hash references.  The keys
+    should correspond to the attributes of the [Test::Roo](https://metacpan.org/pod/Test::Roo) class.
+
+    See ["DATA FILES"](#data-files) below.
+
+- `recurse`
+
+    When this is true, then any directories in ["files"](#files) will be checked
+    recursively.
+
+    It is false by default.
+
+    item `follow_symlinks`
+
+    When this is true, then symlinks in ["files"](#files) will be followed.
+
+    It is false by default.
+
+- `match`
+
+    A regular expression to match the names of data files. It defaults to
+    `qr/\.dat$/`.
+
+- `filter`
+
+    This is a reference to a subroutine that takes a single test case as a
+    hash reference, as well as the data file and case index in that file.
+
+    The subroutine is expected to return a hash reference to a test case.
+
+    For example, if you wanted to add the data file and index, you might
+    use
+
+    ```perl
+    MyTests->run_data_tests(
+      filter = sub {
+          my ($test, $file, $index) = @_;
+          my %args = (
+              %$test,                # avoid side-effects
+              data_file  => "$file", # stringify Path::Tiny
+              data_index => $index,  # undef if none
+          );
+          return \%args;
+      },
+      ...
+    );
+    ```
+
+# DATA FILES
+
+The data files are simple Perl scripts that return a hash reference
+(or array reference of hash references) of constructor values for the
+[Test::Roo](https://metacpan.org/pod/Test::Roo) class..
+
+For example,
+
+```perl
+#!/perl
+
+use Test::Deep;
+
++{
+  description => 'Sample test',
+  params => {
+    choices => bag( qw/ first second / ),
+    page    => 1,
+  },
+};
+```
+
+Notice in the above example, we are using the `bag` function from
+[Test::Deep](https://metacpan.org/pod/Test::Deep), so we have to import the module into our test case to
+ensure that it compiles correctly.
+
+Note that there is no performance loss in repeating module imports in
+every test case. However, you may want to use a module like [ToolSet](https://metacpan.org/pod/ToolSet)
+to import common packages.
+
+Data files can contain multiple test cases:
+
+```perl
+#!/perl
+
+use Test::Deep;
+
+[
+
+  {
+    description => 'Sample test',
+    params => {
+      choices => bag( qw/ first second / ),
+      page    => 1,
+    },
+  },
+
+  {
+    description => 'Another test',
+    params => {
+      choices => bag( qw/ second third / ),
+      page    => 2,
+    },
+  },
+
+];
+```
+
+The data files can also include scripts to generate test cases:
+
+```perl
+#!/perl
+
+sub generate_cases {
+  ...
+};
+
+[
+  generate_cases( page => 1 ),
+  generate_cases( page => 2 ),
+];
+```
+
+# KNOWN ISSUES
+
+## Skipping test cases
+
+Skipping a test case in your test class, e.g.
+
+```perl
+sub BUILD {
+  my ($self) = @_;
+
+  ...
+
+  plan skip_all => "Cannot test" if $some_condition;
+
+}
+```
+
+will stop all remaining tests from running.
+
+## Prerequisite Scanners
+
+Prerequisite scanners used for build tools may not recognise modules
+used in the ["DATA FILES"](#data-files).  To work around this, use the modules as
+well in the test class or explicitly add them to the distribution's
+metadata.
+
+See ["BUGS"](#bugs) below.
+
 # SEE ALSO
 
 [Test::Roo](https://metacpan.org/pod/Test::Roo)
+
+# SOURCE
+
+The development version is on github at [https://github.com/robrwo/Test-Roo-DataDriven](https://github.com/robrwo/Test-Roo-DataDriven)
+and may be cloned from [git://github.com/robrwo/Test-Roo-DataDriven.git](git://github.com/robrwo/Test-Roo-DataDriven.git)
+
+# BUGS
+
+Please report any bugs or feature requests on the bugtracker website
+[https://github.com/robrwo/Test-Roo-DataDriven/issues](https://github.com/robrwo/Test-Roo-DataDriven/issues)
+
+When submitting a bug or request, please include a test-file or a
+patch to an existing test-file that illustrates the bug or desired
+feature.
 
 # AUTHOR
 
@@ -49,11 +234,17 @@ Robert Rothenberg <rrwo@cpan.org>
 The initial development of this module was sponsored by Science Photo
 Library [https://www.sciencephoto.com](https://www.sciencephoto.com).
 
-## Contributors
+# CONTRIBUTORS
 
-Aaron Crane <arc@cpan.org>
+- Aaron Crane <arc@cpan.org>
+- Mohammad S Anwar <mohammad.anwar@yahoo.com>
 
-# LICENSE
+# COPYRIGHT AND LICENSE
 
-This library is free software and may be distributed under the same
-terms as perl itself. See [http://dev.perl.org/licenses/](http://dev.perl.org/licenses/).
+This software is Copyright (c) 2017 by Robert Rothenberg.
+
+This is free software, licensed under:
+
+```
+The Artistic License 2.0 (GPL Compatible)
+```

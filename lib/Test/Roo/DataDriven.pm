@@ -15,6 +15,44 @@ requires 'run_tests';
 
 our $VERSION = 'v0.1.3';
 
+=head1 SYNOPSIS
+
+  package MyTests
+
+  use Test::Roo;
+
+  use lib 't/lib';
+
+  with qw/
+    MyClass::Test::Role
+    Test::Roo::DataDriven
+    /;
+
+  1;
+
+  package main;
+
+  use Test::More;
+
+  MyTests->run_data_tests(
+    files   => 't/data/myclass',
+    recurse => 1,
+  );
+
+  done_testing;
+
+=head1 DESCRIPTION
+
+This class extends L<Test::Roo> for data-driven tests that are kept in
+separate files.
+
+This is useful when a test has hundreds of test cases, where it is
+impractical to include all of the cases in a single test script.
+
+This also allows different tests to share the test cases.
+
+=cut
+
 sub _build_data_files {
     my ( $class, %args ) = @_;
 
@@ -55,115 +93,9 @@ sub _build_data_files {
     return [ sort @files ];
 }
 
-sub run_data_tests {
-    my ( $class, @args ) = @_;
-
-    my %args =
-      ( ( @args == 1 ) && is_hashref( $args[0] ) )
-      ? %{ $args[0] }
-      : @args;
-
-    my $filter = $args{filter} // sub { $_[0] };
-
-    state $counter = 0;
-
-    $counter++;
-    my $package = __PACKAGE__ . "::Sandbox${counter}";
-
-    foreach my $file ( @{ $class->_build_data_files(%args) } ) {
-
-        state $eval = sub { eval $_[0] }; ## no critic (ProhibitStringyEval)
-
-        my $path = $file->absolute;
-
-        note "Data: $file";
-
-        if ( my $data = $eval->("package ${package}; do q{${path}};") ) {
-
-            if ( is_arrayref($data) ) {
-
-                my @cases = @$data;
-                my $i     = 1;
-
-                foreach my $case (@cases) {
-
-                    my $desc = sprintf(
-                        '%s (%u of %u)',
-                        $case->{description} // $file->basename,    #
-                        $i++,                                       #
-                        scalar(@cases)                              #
-                    );
-
-                    $class->run_tests( $desc, $filter->($case, $file, $i) );
-
-                }
-
-            }
-            else {
-
-                my $desc = $data->{description} // $file->basename;
-
-                $class->run_tests( $desc, $filter->($data, $file) );
-            }
-
-        }
-        else {
-
-            die "parse failed on $file: $@" if $@;
-            die "do failed on $file: $!" unless defined $data;
-            die "run failed on $file" unless $data;
-
-        }
-
-    }
-
-}
-
-=head1 NAME
-
-Test::Roo::DataDriven - Simple data-driven tests with Test::Roo.
-
-=head1 SYNOPSIS
-
-  package MyTests
-
-  use Test::Roo;
-
-  use lib 't/lib';
-
-  with qw/
-    MyClass::Test::Role
-    Test::Roo::DataDriven
-    /;
-
-  1;
-
-  package main;
-
-  use Test::More;
-
-  MyTests->run_data_tests(
-    files   => 't/data/myclass',
-    recurse => 1,
-  );
-
-  done_testing;
-
-=head1 DESCRIPTION
-
-This class extends L<Test::Roo> for data-driven tests that are kept in
-separate files.
-
-This is useful when a test has hundreds of test cases, where it is
-impractical to include all of the cases in a single test script.
-
-This also allows different tests to share the test cases.
-
 =for readme stop
 
-=head1 METHODS
-
-=head2 C<run_data_tests>
+=method C<run_data_tests>
 
 This is called as a class method, and is a wrapper around  the C<run_tests>
 method.  It takes the following arguments:
@@ -226,6 +158,72 @@ use
   );
 
 =back
+
+=cut
+
+sub run_data_tests {
+    my ( $class, @args ) = @_;
+
+    my %args =
+      ( ( @args == 1 ) && is_hashref( $args[0] ) )
+      ? %{ $args[0] }
+      : @args;
+
+    my $filter = $args{filter} // sub { $_[0] };
+
+    state $counter = 0;
+
+    $counter++;
+    my $package = __PACKAGE__ . "::Sandbox${counter}";
+
+    foreach my $file ( @{ $class->_build_data_files(%args) } ) {
+
+        state $eval = sub { eval $_[0] };    ## no critic (ProhibitStringyEval)
+
+        my $path = $file->absolute;
+
+        note "Data: $file";
+
+        if ( my $data = $eval->("package ${package}; do q{${path}};") ) {
+
+            if ( is_arrayref($data) ) {
+
+                my @cases = @$data;
+                my $i     = 1;
+
+                foreach my $case (@cases) {
+
+                    my $desc = sprintf(
+                        '%s (%u of %u)',
+                        $case->{description} // $file->basename,    #
+                        $i++,                                       #
+                        scalar(@cases)                              #
+                    );
+
+                    $class->run_tests( $desc, $filter->( $case, $file, $i ) );
+
+                }
+
+            }
+            else {
+
+                my $desc = $data->{description} // $file->basename;
+
+                $class->run_tests( $desc, $filter->( $data, $file ) );
+            }
+
+        }
+        else {
+
+            die "parse failed on $file: $@" if $@;
+            die "do failed on $file: $!" unless defined $data;
+            die "run failed on $file" unless $data;
+
+        }
+
+    }
+
+}
 
 =head1 DATA FILES
 
@@ -318,27 +316,18 @@ used in the L</DATA FILES>.  To work around this, use the modules as
 well in the test class or explicitly add them to the distribution's
 metadata.
 
+See L</BUGS> below.
+
 =for readme continue
 
 =head1 SEE ALSO
 
 L<Test::Roo>
 
-=head1 AUTHOR
-
-Robert Rothenberg <rrwo@cpan.org>
+=head1 append:AUTHOR
 
 The initial development of this module was sponsored by Science Photo
 Library L<https://www.sciencephoto.com>.
-
-=head2 Contributors
-
-Aaron Crane <arc@cpan.org>
-
-=head1 LICENSE
-
-This library is free software and may be distributed under the same
-terms as perl itself. See L<http://dev.perl.org/licenses/>.
 
 =cut
 
