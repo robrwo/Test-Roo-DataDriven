@@ -86,7 +86,8 @@ method.  It takes the following arguments:
 - `filter`
 
     This is a reference to a subroutine that takes a single test case as a
-    hash reference, as well as the data file and case index in that file.
+    hash reference, as well as the data file ([Path::Tiny](https://metacpan.org/pod/Path::Tiny)) and case
+    index in that file.
 
     The subroutine is expected to return a hash reference to a test case.
 
@@ -108,11 +109,29 @@ method.  It takes the following arguments:
     );
     ```
 
+- `parser`
+
+    By default, the data files are Perl snippets. If the data files exist
+    in a different format, then an alternative parser can be used.
+
+    For example, if the data files were in JSON format:
+
+    ```perl
+    MyTests->run_data_tests(
+      match  => qr/\.json$/,
+      parser => sub { decode_json( $_[0]->slurp_raw ) },
+    );
+    ```
+
+    Note that the argument is a [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object.
+
+    Added in v0.2.0.
+
 # DATA FILES
 
-The data files are simple Perl scripts that return a hash reference
-(or array reference of hash references) of constructor values for the
-[Test::Roo](https://metacpan.org/pod/Test::Roo) class..
+Unless the default ["parser"](#parser) is changed, the data files are simple
+Perl scripts that return a hash reference (or array reference of hash
+references) of constructor values for the [Test::Roo](https://metacpan.org/pod/Test::Roo) class.
 
 For example,
 
@@ -130,7 +149,7 @@ use Test::Deep;
 };
 ```
 
-Notice in the above example, we are using the `bag` function from
+In the above example, we are using the `bag` function from
 [Test::Deep](https://metacpan.org/pod/Test::Deep), so we have to import the module into our test case to
 ensure that it compiles correctly.
 
@@ -180,6 +199,10 @@ sub generate_cases {
   generate_cases( page => 2 ),
 ];
 ```
+
+Each datafile is loaded into a unique namespace. However, there is
+nothing preventing the datafiles from modifying variables in other
+namespaces, or even doing anything else.
 
 # KNOWN ISSUES
 
