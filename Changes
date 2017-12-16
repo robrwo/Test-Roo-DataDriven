@@ -12,6 +12,8 @@ Revision history for Test::Roo::DataDriven
 
   - Document that data files are parsed in their own namespaces.
 
+  - Update the POD.
+
   [Tests]
   - Added more tests.
 
