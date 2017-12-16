@@ -17,6 +17,8 @@ Revision history for Test::Roo::DataDriven
   [Tests]
   - Added more tests.
 
+  - Added various author/release tests.
+
   [Other Changes]
   - Change internal _build_data_files method to use a hash reference.
 
