@@ -66,7 +66,7 @@ method.  It takes the following arguments:
     hash reference or an array reference of hash references.  The keys
     should correspond to the attributes of the [Test::Roo](https://metacpan.org/pod/Test::Roo) class.
 
-    See ["DATA FILES"](#data-files) below.
+    See ["Data Files"](#data-files) below.
 
 - `recurse`
 
@@ -128,9 +128,21 @@ method.  It takes the following arguments:
 
     Note that the argument is a [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object.
 
+    See the ["parse\_data\_file"](#parse_data_file) method.
+
     Added in v0.2.0.
 
-# DATA FILES
+## `parse_data_file`
+
+```perl
+my $data = $class->parse_data_file( $file );
+```
+
+This is the default parser for the ["Data Files"](#data-files).
+
+Added in v0.2.0.
+
+### Data Files
 
 Unless the default ["parser"](#parser) is changed, the data files are simple
 Perl scripts that return a hash reference (or array reference of hash
@@ -229,7 +241,7 @@ will stop all remaining tests from running.
 ## Prerequisite Scanners
 
 Prerequisite scanners used for build tools may not recognise modules
-used in the ["DATA FILES"](#data-files).  To work around this, use the modules as
+used in the ["Data Files"](#data-files).  To work around this, use the modules as
 well in the test class or explicitly add them to the distribution's
 metadata.
 

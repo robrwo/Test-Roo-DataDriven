@@ -6,11 +6,15 @@ Revision history for Test::Roo::DataDriven
 
   - Add the parser option to support alternative data file formats.
 
+  - Improved error diagnostics.
+
   [Documentation]
   - Note that the file argument for the filter and parser options is a
     Path::Tiny object.
 
   - Document that data files are parsed in their own namespaces.
+
+  - Reorganized the documentation.
 
   - Update the POD.
 

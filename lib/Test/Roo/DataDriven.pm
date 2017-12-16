@@ -97,19 +97,6 @@ sub _build_data_files {
     return [ sort @files ];
 }
 
-sub _parse_data_file {
-    my ( $class, $file ) = @_;
-
-    my $path = $file->absolute;
-
-    state $eval = sub { eval $_[0] };    ## no critic (ProhibitStringyEval)
-    state $counter = 0;
-
-    my $package = __PACKAGE__ . "::Sandbox" . $counter++;
-
-    $eval->("package ${package}; do q{${path}};");
-}
-
 =for readme stop
 
 =method C<run_data_tests>
@@ -131,7 +118,7 @@ The files are expected to be executable Perl snippets that return a
 hash reference or an array reference of hash references.  The keys
 should correspond to the attributes of the L<Test::Roo> class.
 
-See L</DATA FILES> below.
+See L</Data Files> below.
 
 =item C<recurse>
 
@@ -189,6 +176,8 @@ For example, if the data files were in JSON format:
 
 Note that the argument is a L<Path::Tiny> object.
 
+See the L</parse_data_file> method.
+
 Added in v0.2.0.
 
 =back
@@ -204,51 +193,43 @@ sub run_data_tests {
       : @args;
 
     my $filter = $args{filter} // sub { $_[0] };
-    my $parser = $args{parser} // $class->curry::_parse_data_file;
+    my $parser = $args{parser} // $class->curry::parse_data_file;
 
     foreach my $file ( @{ $class->_build_data_files( \%args ) } ) {
 
         note "Data: $file";
 
-        if ( my $data = $parser->($file) ) {
+        my $data = $parser->($file);
 
-            if ( is_arrayref($data) ) {
+        if ( is_arrayref($data) ) {
 
-                my @cases = @$data;
-                my $i     = 1;
+            my @cases = @$data;
+            my $i     = 1;
 
-                foreach my $case (@cases) {
+            foreach my $case (@cases) {
 
-                    my $desc = sprintf(
-                        '%s (%u of %u)',
-                        $case->{description} // $file->basename,    #
-                        $i++,                                       #
-                        scalar(@cases)                              #
-                    );
+                my $desc = sprintf(
+                    '%s (%u of %u)',
+                    $case->{description} // $file->basename,    #
+                    $i++,                                       #
+                    scalar(@cases)                              #
+                );
 
-                    $class->run_tests( $desc, $filter->( $case, $file, $i ) );
-
-                }
-
-            }
-            elsif ( is_hashref($data) ) {
-
-                my $desc = $data->{description} // $file->basename;
-
-                $class->run_tests( $desc, $filter->( $data, $file ) );
-            }
-            else {
-
-                die "unsupported data type: " . ref($data);
+                $class->run_tests( $desc, $filter->( $case, $file, $i ) );
 
             }
 
         }
+        elsif ( is_hashref($data) ) {
+
+            my $desc = $data->{description} // $file->basename;
+
+            $class->run_tests( $desc, $filter->( $data, $file ) );
+        }
         else {
 
-            die "parse failed on $file: $@" if $@;
-            die "do failed on $file: $!" unless defined $data;
-            die "run failed on $file" unless $data;
+            my $type = ref $data ;
+            die "unsupported data type ${type} returned by ${file}";
 
         }
 
@@ -256,7 +237,15 @@ sub run_data_tests {
 
 }
 
-=head1 DATA FILES
+=method C<parse_data_file>
+
+  my $data = $class->parse_data_file( $file );
+
+This is the default parser for the L</Data Files>.
+
+Added in v0.2.0.
+
+=head3 Data Files
 
 Unless the default L</parser> is changed, the data files are simple
 Perl scripts that return a hash reference (or array reference of hash
@@ -327,6 +316,27 @@ Each datafile is loaded into a unique namespace. However, there is
 nothing preventing the datafiles from modifying variables in other
 namespaces, or even doing anything else.
 
+=cut
+
+sub parse_data_file {
+    my ( $class, $file ) = @_;
+
+    my $path = $file->absolute;
+
+    state $eval = sub { eval $_[0] };    ## no critic (ProhibitStringyEval)
+    state $counter = 0;
+
+    my $package = __PACKAGE__ . "::Sandbox" . $counter++;
+
+    my $data = $eval->("package ${package}; do q{${path}} or die \$!;");
+
+    die "parse failed on $file: $@" if $@;
+    die "do failed on $file: $!" unless defined $data;
+    die "run failed or no data returned on $file" unless $data;
+
+    return $data;
+}
+
 =head1 KNOWN ISSUES
 
 =head2 Skipping test cases
@@ -347,7 +357,7 @@ will stop all remaining tests from running.
 =head2 Prerequisite Scanners
 
 Prerequisite scanners used for build tools may not recognise modules
-used in the L</DATA FILES>.  To work around this, use the modules as
+used in the L</Data Files>.  To work around this, use the modules as
 well in the test class or explicitly add them to the distribution's
 metadata.
 
