@@ -12,6 +12,9 @@ Revision history for Test::Roo::DataDriven
 
   - Document that data files are parsed in their own namespaces.
 
+  [Tests]
+  - Added more tests.
+
   [Other Changes]
   - Change internal _build_data_files method to use a hash reference.
 
