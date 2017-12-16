@@ -39,10 +39,13 @@ done_testing;
 This class extends [Test::Roo](https://metacpan.org/pod/Test::Roo) for data-driven tests that are kept in
 separate files.
 
-This is useful when a test has hundreds of test cases, where it is
-impractical to include all of the cases in a single test script.
+This is useful when a test script has too many test cases, so that it
+is impractical to include all of the cases in a single test script.
 
-This also allows different tests to share the test cases.
+It allows different tests to share the test cases.
+
+It also makes it easier to have testers with very little Perl
+knowledge to write tests.
 
 # METHODS
 
