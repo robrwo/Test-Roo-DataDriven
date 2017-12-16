@@ -215,9 +215,12 @@ sub generate_cases {
 ];
 ```
 
-Each datafile is loaded into a unique namespace. However, there is
+Each data file is loaded into a unique namespace. However, there is
 nothing preventing the datafiles from modifying variables in other
 namespaces, or even doing anything else.
+
+If the data file is successfully parsed, then the namespace is
+unloaded.
 
 # KNOWN ISSUES
 

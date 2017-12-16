@@ -7,6 +7,8 @@ use v5.10.1;
 use Test::Roo::Role;
 
 use curry;
+
+use Class::Unload;
 use Path::Tiny;
 use Ref::Util qw/ is_arrayref is_hashref /;
 
@@ -228,7 +230,7 @@ sub run_data_tests {
         }
         else {
 
-            my $type = ref $data ;
+            my $type = ref $data;
             die "unsupported data type ${type} returned by ${file}";
 
         }
@@ -312,9 +314,12 @@ The data files can also include scripts to generate test cases:
     generate_cases( page => 2 ),
   ];
 
-Each datafile is loaded into a unique namespace. However, there is
+Each data file is loaded into a unique namespace. However, there is
 nothing preventing the datafiles from modifying variables in other
 namespaces, or even doing anything else.
+
+If the data file is successfully parsed, then the namespace is
+unloaded.
 
 =cut
 
@@ -333,6 +338,8 @@ sub parse_data_file {
     die "parse failed on $file: $@" if $@;
     die "do failed on $file: $!" unless defined $data;
     die "run failed or no data returned on $file" unless $data;
+
+    Class::Unload->unload($package);
 
     return $data;
 }

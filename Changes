@@ -8,6 +8,8 @@ Revision history for Test::Roo::DataDriven
 
   - Improved error diagnostics.
 
+  - Namespaces are cleaned up after data files are parsed.
+
   [Documentation]
   - Note that the file argument for the filter and parser options is a
     Path::Tiny object.
