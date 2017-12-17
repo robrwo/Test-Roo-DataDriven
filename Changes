@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+
+v0.2.0    2017-12-17 00:21:59+00:00 Europe/London
   [Enhancements]
   - Check that return type is either an array or hash reference.
 
