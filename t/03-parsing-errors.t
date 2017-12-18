@@ -15,6 +15,9 @@ package main;
 use Test::Most;
 use Path::Tiny;
 
+plan skip_all => "Error messages may be locale-dependent"
+  unless $ENV{LANG} && $ENV{LANG} =~ /^en/;
+
 subtest 'nonexistent' => sub {
 
     my $file = path('t/data/errors/nonexistent.err');
