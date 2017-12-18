@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+
+v0.2.1    2017-12-18 01:18:37+00:00 Europe/London
   [Tests]
   - Skip error tests if the locale language is not English,
     as a workaround for locale issues, #6.
