@@ -365,11 +365,12 @@ will stop all remaining tests from running.
 Instead, skip tests before the setup:
 
     before setup => sub {
-        my ($self) = @_;
+      my ($self) = @_;
 
-        ...
+      ...
 
-        plan skip_all => 'test skips';
+      plan skip_all => "Cannot test" if $some_condition;
+
     };
 
 

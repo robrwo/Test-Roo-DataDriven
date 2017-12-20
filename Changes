@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Documentation]
+  - Change example of skipped test for consistency.
 
 v0.2.2    2017-12-20 13:57:22+00:00 Europe/London
   [Documentation]
