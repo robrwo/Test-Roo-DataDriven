@@ -348,7 +348,8 @@ sub parse_data_file {
 
 =head2 Skipping test cases
 
-Skipping a test case in your test class, e.g.
+Skipping a test case in your test class as per L<Test::Roo::Cookbook>,
+e.g.
 
   sub BUILD {
     my ($self) = @_;
@@ -360,6 +361,17 @@ Skipping a test case in your test class, e.g.
   }
 
 will stop all remaining tests from running.
+
+Instead, skip tests before the setup:
+
+    before setup => sub {
+        my ($self) = @_;
+
+        ...
+
+        plan skip_all => 'test skips';
+    };
+
 
 =head2 Prerequisite Scanners
 

@@ -1,8 +1,13 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Documentation]
+  - Document how to skip all tests, #1.
+
   [Tests]
   - Remove language-specific error check, #6.
+
+  - Add test for skip_all, #1.
 
 v0.2.1    2017-12-18 01:18:37+00:00 Europe/London
   [Tests]

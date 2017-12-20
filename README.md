@@ -226,7 +226,8 @@ unloaded.
 
 ## Skipping test cases
 
-Skipping a test case in your test class, e.g.
+Skipping a test case in your test class as per [Test::Roo::Cookbook](https://metacpan.org/pod/Test::Roo::Cookbook),
+e.g.
 
 ```perl
 sub BUILD {
@@ -240,6 +241,18 @@ sub BUILD {
 ```
 
 will stop all remaining tests from running.
+
+Instead, skip tests before the setup:
+
+```perl
+before setup => sub {
+    my ($self) = @_;
+
+    ...
+
+    plan skip_all => 'test skips';
+};
+```
 
 ## Prerequisite Scanners
 
