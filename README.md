@@ -224,6 +224,15 @@ unloaded.
 
 # KNOWN ISSUES
 
+See also ["BUGS"](#bugs) below.
+
+## Support for older Perl versions
+
+This module requires Perl v5.10.1 or newer.
+
+Pull requests to support older versions of Perl are welcome. See
+["SOURCE"](#source).
+
 ## Skipping test cases
 
 Skipping a test case in your test class as per [Test::Roo::Cookbook](https://metacpan.org/pod/Test::Roo::Cookbook),
@@ -261,8 +270,6 @@ Prerequisite scanners used for build tools may not recognise modules
 used in the ["Data Files"](#data-files).  To work around this, use the modules as
 well in the test class or explicitly add them to the distribution's
 metadata.
-
-See ["BUGS"](#bugs) below.
 
 # SEE ALSO
 
