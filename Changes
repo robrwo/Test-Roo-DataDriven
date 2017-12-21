@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+
+v0.3.0    2017-12-21 17:27:27+00:00 Europe/London
   [Enhancements]
   - Allow @ARGV to override files, #2.
 
