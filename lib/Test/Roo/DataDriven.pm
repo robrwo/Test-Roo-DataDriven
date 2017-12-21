@@ -3,6 +3,7 @@ package Test::Roo::DataDriven;
 # ABSTRACT: simple data-driven tests with Test::Roo
 
 # RECOMMEND PREREQ: App::Prove
+# RECOMMEND PREREQ: Ref::Util::XS
 
 use v5.10.1;
 
