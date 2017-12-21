@@ -18,7 +18,7 @@ use namespace::autoclean;
 
 requires 'run_tests';
 
-our $VERSION = 'v0.2.3';
+our $VERSION = 'v0.3.0';
 
 =head1 SYNOPSIS
 
