@@ -246,11 +246,12 @@ Instead, skip tests before the setup:
 
 ```perl
 before setup => sub {
-    my ($self) = @_;
+  my ($self) = @_;
 
-    ...
+  ...
 
-    plan skip_all => 'test skips';
+  plan skip_all => "Cannot test" if $some_condition;
+
 };
 ```
 
