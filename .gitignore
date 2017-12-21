@@ -1,3 +1,4 @@
 Test-Roo-DataDriven-*/
 Test-Roo-DataDriven-*.tar.gz
 .build/
+cpanfile.snapshot
