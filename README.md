@@ -132,6 +132,24 @@ method.  It takes the following arguments:
 
     Added in v0.2.0.
 
+- `argv`
+
+    If any arguments are passed on the command line, then they are assumed
+    to be directories are test files. Those will be tested instead of the
+    ["files"](#files) parameter.
+
+    This allows you to run tests on specific data files or directories.
+
+    For example,
+
+    ```
+    prove -lv t/01-example.t :: t/data/002-another.dat
+    ```
+
+    This is enabled by default, but requires [App::Prove](https://metacpan.org/pod/App::Prove).
+
+    Added in v0.2.3.
+
 ## `parse_data_file`
 
 ```perl

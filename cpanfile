@@ -5,6 +5,7 @@ requires "Test::Roo::Role" => "0";
 requires "curry" => "0";
 requires "namespace::autoclean" => "0";
 requires "perl" => "v5.10.1";
+recommends "App::Prove" => "0";
 
 on 'test' => sub {
   requires "File::Basename" => "0";

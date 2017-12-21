@@ -1,6 +1,9 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Enhancements]
+  - Allow @ARGV to override files, #2.
+
   [Documentation]
   - Change example of skipped test for consistency.
 

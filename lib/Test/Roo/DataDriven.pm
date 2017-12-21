@@ -2,6 +2,8 @@ package Test::Roo::DataDriven;
 
 # ABSTRACT: simple data-driven tests with Test::Roo
 
+# RECOMMEND PREREQ: App::Prove
+
 use v5.10.1;
 
 use Test::Roo::Role;
@@ -64,10 +66,20 @@ sub _build_data_files {
 
     my $match = $args->{match} // qr/\.dat$/;
 
-    my @paths = map { path($_) }
-      is_arrayref( $args->{files} ) ? @{ $args->{files} } : ( $args->{files} );
-
+    my @paths;
     my @files;
+
+    my $argv = $args->{argv} // 1;
+    if ( $argv && @ARGV ) {
+        @paths = map { path($_) } @ARGV;
+    }
+    else {
+        @paths =
+          map { path($_) }
+          is_arrayref( $args->{files} )
+          ? @{ $args->{files} }
+          : ( $args->{files} );
+    }
 
     foreach my $path (@paths) {
 
@@ -181,6 +193,22 @@ Note that the argument is a L<Path::Tiny> object.
 See the L</parse_data_file> method.
 
 Added in v0.2.0.
+
+=item C<argv>
+
+If any arguments are passed on the command line, then they are assumed
+to be directories are test files. Those will be tested instead of the
+L</files> parameter.
+
+This allows you to run tests on specific data files or directories.
+
+For example,
+
+  prove -lv t/01-example.t :: t/data/002-another.dat
+
+This is enabled by default, but requires L<App::Prove>.
+
+Added in v0.2.3.
 
 =back
 
