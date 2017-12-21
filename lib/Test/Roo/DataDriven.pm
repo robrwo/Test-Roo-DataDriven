@@ -346,6 +346,15 @@ sub parse_data_file {
 
 =head1 KNOWN ISSUES
 
+See also L</BUGS> below.
+
+=head2 Support for older Perl versions
+
+This module requires Perl v5.10.1 or newer.
+
+Pull requests to support older versions of Perl are welcome. See
+L</SOURCE>.
+
 =head2 Skipping test cases
 
 Skipping a test case in your test class as per L<Test::Roo::Cookbook>,
@@ -380,8 +389,6 @@ Prerequisite scanners used for build tools may not recognise modules
 used in the L</Data Files>.  To work around this, use the modules as
 well in the test class or explicitly add them to the distribution's
 metadata.
-
-See L</BUGS> below.
 
 =for readme continue
 

@@ -4,6 +4,8 @@ Revision history for Test::Roo::DataDriven
   [Documentation]
   - Change example of skipped test for consistency.
 
+  - Added note about minimum Perl version.
+
   [Toolchain]
   - Include cpanfile in the distribution.
 
