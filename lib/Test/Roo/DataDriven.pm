@@ -235,14 +235,14 @@ sub run_data_tests {
         if ( is_arrayref($data) ) {
 
             my @cases = @$data;
-            my $i     = 1;
+            my $i     = 0;
 
             foreach my $case (@cases) {
 
                 my $desc = sprintf(
                     '%s (%u of %u)',
                     $case->{description} // $file->basename,    #
-                    $i++,                                       #
+                    ++$i,                                       #
                     scalar(@cases)                              #
                 );
 

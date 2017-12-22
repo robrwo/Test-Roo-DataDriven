@@ -7,6 +7,9 @@ Revision history for Test::Roo::DataDriven
   [Toolchain]
   - Ref::Util::XS is recommended.
 
+  [Other Changes]
+  - Minor code changes to make namespaces easier to test.
+
 v0.3.0    2017-12-21 17:27:27+00:00 Europe/London
   [Enhancements]
   - Allow @ARGV to override files, #2.
