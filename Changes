@@ -1,6 +1,9 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Tests]
+  - Added more tests.
+
   [Toolchain]
   - Ref::Util::XS is recommended.
 
