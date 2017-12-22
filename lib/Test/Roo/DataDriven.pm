@@ -76,8 +76,7 @@ sub _build_data_files {
     }
     else {
         @paths =
-          map { path($_) }
-          is_arrayref( $args->{files} )
+          map { path($_) } is_arrayref( $args->{files} )
           ? @{ $args->{files} }
           : ( $args->{files} );
     }
