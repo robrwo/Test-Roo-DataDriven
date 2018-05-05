@@ -10,7 +10,6 @@ recommends "Ref::Util::XS" => "0";
 
 on 'test' => sub {
   requires "Class::Inspector" => "0";
-  requires "File::Basename" => "0";
   requires "File::Spec" => "0";
   requires "JSON::PP" => "2.00";
   requires "Module::Metadata" => "0";
@@ -20,10 +19,6 @@ on 'test' => sub {
   requires "Test::Roo" => "0";
   requires "Time::Piece" => "1.16";
   requires "Time::Seconds" => "0";
-  requires "feature" => "0";
-  requires "lib" => "0";
-  requires "strict" => "0";
-  requires "warnings" => "0";
 };
 
 on 'test' => sub {
