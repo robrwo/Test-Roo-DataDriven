@@ -4,7 +4,7 @@ Test::Roo::DataDriven - simple data-driven tests with Test::Roo
 
 # VERSION
 
-version v0.3.1
+version v0.3.2
 
 # SYNOPSIS
 
