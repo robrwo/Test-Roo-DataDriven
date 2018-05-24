@@ -4,7 +4,7 @@ requires "Ref::Util" => "0";
 requires "Test::Roo::Role" => "0";
 requires "curry" => "0";
 requires "namespace::autoclean" => "0";
-requires "perl" => "v5.10.1";
+requires "perl" => "v5.8.0";
 recommends "App::Prove" => "0";
 recommends "Ref::Util::XS" => "0";
 

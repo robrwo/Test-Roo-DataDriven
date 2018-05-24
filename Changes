@@ -1,6 +1,9 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Enhancements]
+  - Minimum version lowered to v5.8.
+
   [Toolchain]
   - Remove core and redundant prereqs.
 

@@ -244,13 +244,6 @@ unloaded.
 
 See also ["BUGS"](#bugs) below.
 
-## Support for older Perl versions
-
-This module requires Perl v5.10.1 or newer.
-
-Pull requests to support older versions of Perl are welcome. See
-["SOURCE"](#source).
-
 ## Skipping test cases
 
 Skipping a test case in your test class as per [Test::Roo::Cookbook](https://metacpan.org/pod/Test::Roo::Cookbook),
