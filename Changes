@@ -1,6 +1,8 @@
 Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
+  [Toolchain]
+  - Added keywords to distribution metadata.
 
 v0.4.0    2018-05-24 22:18:38+01:00 Europe/London
   [Enhancements]
