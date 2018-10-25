@@ -7,6 +7,8 @@ Revision history for Test::Roo::DataDriven
   [Toolchain]
   - Added keywords to distribution metadata.
 
+  - Tweaks to dist.ini for simplifying build.
+
 v0.4.0    2018-05-24 22:18:38+01:00 Europe/London
   [Enhancements]
   - Minimum version lowered to v5.8.
@@ -37,8 +39,6 @@ v0.3.0    2017-12-21 17:27:27+00:00 Europe/London
 
   [Toolchain]
   - Include cpanfile in the distribution.
-
-  - Tweaks to dist.ini for simplifying build.
 
 v0.2.2    2017-12-20 13:57:22+00:00 Europe/London
   [Documentation]
