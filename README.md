@@ -314,7 +314,7 @@ Library [https://www.sciencephoto.com](https://www.sciencephoto.com).
 
 # COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2018 by Robert Rothenberg.
+This software is Copyright (c) 2017-2019 by Robert Rothenberg.
 
 This is free software, licensed under:
 
