@@ -48,7 +48,7 @@
 # Author Extras
 ^inc/.*\.pod$
 ^pkg/
-^xt/
+# ^xt/
 # ^dist.ini$
 
 # Editors
@@ -105,4 +105,8 @@
 \.build/
 Test-Roo-DataDriven-.*/
 Test-Roo-DataDriven-.*\.tar\.gz
+\.mailmap$
+perltidy\.(LOG|ERR)
+fatlib/
 cpanfile\.snapshot$
+local/
