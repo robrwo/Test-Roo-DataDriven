@@ -6,6 +6,8 @@ Revision history for Test::Roo::DataDriven
 
   - Updated copyright year.
 
+  - Fixed encoding of links in README.md.
+
 v0.4.2    2019-07-17 17:34:44+01:00 Europe/London
   [Tests]
   - Add more diagnostics of installed modules.

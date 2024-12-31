@@ -36,7 +36,7 @@ done_testing;
 
 # DESCRIPTION
 
-This class extends [Test::Roo](https://metacpan.org/pod/Test::Roo) for data-driven tests that are kept in
+This class extends [Test::Roo](https://metacpan.org/pod/Test%3A%3ARoo) for data-driven tests that are kept in
 separate files.
 
 This is useful when a test script has too many test cases, so that it
@@ -64,7 +64,7 @@ method.  It takes the following arguments:
 
     The files are expected to be executable Perl snippets that return a
     hash reference or an array reference of hash references.  The keys
-    should correspond to the attributes of the [Test::Roo](https://metacpan.org/pod/Test::Roo) class.
+    should correspond to the attributes of the [Test::Roo](https://metacpan.org/pod/Test%3A%3ARoo) class.
 
     See ["Data Files"](#data-files) below.
 
@@ -89,7 +89,7 @@ method.  It takes the following arguments:
 - `filter`
 
     This is a reference to a subroutine that takes a single test case as a
-    hash reference, as well as the data file ([Path::Tiny](https://metacpan.org/pod/Path::Tiny)) and case
+    hash reference, as well as the data file ([Path::Tiny](https://metacpan.org/pod/Path%3A%3ATiny)) and case
     index in that file.
 
     The subroutine is expected to return a hash reference to a test case.
@@ -126,7 +126,7 @@ method.  It takes the following arguments:
     );
     ```
 
-    Note that the argument is a [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object.
+    Note that the argument is a [Path::Tiny](https://metacpan.org/pod/Path%3A%3ATiny) object.
 
     See the ["parse\_data\_file"](#parse_data_file) method.
 
@@ -146,7 +146,7 @@ method.  It takes the following arguments:
     prove -lv t/01-example.t :: t/data/002-another.dat
     ```
 
-    This is enabled by default, but requires [App::Prove](https://metacpan.org/pod/App::Prove).
+    This is enabled by default, but requires [App::Prove](https://metacpan.org/pod/App%3A%3AProve).
 
     Added in v0.2.3.
 
@@ -164,7 +164,7 @@ Added in v0.2.0.
 
 Unless the default ["parser"](#parser) is changed, the data files are simple
 Perl scripts that return a hash reference (or array reference of hash
-references) of constructor values for the [Test::Roo](https://metacpan.org/pod/Test::Roo) class.
+references) of constructor values for the [Test::Roo](https://metacpan.org/pod/Test%3A%3ARoo) class.
 
 For example,
 
@@ -183,7 +183,7 @@ use Test::Deep;
 ```
 
 In the above example, we are using the `bag` function from
-[Test::Deep](https://metacpan.org/pod/Test::Deep), so we have to import the module into our test case to
+[Test::Deep](https://metacpan.org/pod/Test%3A%3ADeep), so we have to import the module into our test case to
 ensure that it compiles correctly.
 
 Note that there is no performance loss in repeating module imports in
@@ -246,7 +246,7 @@ See also ["BUGS"](#bugs) below.
 
 ## Skipping test cases
 
-Skipping a test case in your test class as per [Test::Roo::Cookbook](https://metacpan.org/pod/Test::Roo::Cookbook),
+Skipping a test case in your test class as per [Test::Roo::Cookbook](https://metacpan.org/pod/Test%3A%3ARoo%3A%3ACookbook),
 e.g.
 
 ```perl
@@ -284,7 +284,7 @@ metadata.
 
 # SEE ALSO
 
-[Test::Roo](https://metacpan.org/pod/Test::Roo)
+[Test::Roo](https://metacpan.org/pod/Test%3A%3ARoo)
 
 # SOURCE
 
