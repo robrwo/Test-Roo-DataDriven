@@ -4,6 +4,8 @@ Revision history for Test::Roo::DataDriven
   [Documentation]
   - Added security policy.
 
+  - Updated copyright year.
+
 v0.4.2    2019-07-17 17:34:44+01:00 Europe/London
   [Tests]
   - Add more diagnostics of installed modules.
