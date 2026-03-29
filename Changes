@@ -8,8 +8,8 @@ Revision history for Test::Roo::DataDriven
 
   - Fixed encoding of links in README.md.
 
-  [Other]
-  - Update MANIFEST.SKIP rules.
+  [Toolchain]
+  - Remove MANIFEST.SKIP builder.
 
 v0.4.2    2019-07-17 17:34:44+01:00 Europe/London
   [Tests]
