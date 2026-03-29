@@ -2,6 +2,8 @@ Revision history for Test::Roo::DataDriven
 
 {{$NEXT}}
   [Documentation]
+  - Added a SECURITY CONSIDERATIONS section with a warning about the data files.
+
   - Added security policy.
 
   - Updated copyright year.

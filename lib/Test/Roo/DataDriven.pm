@@ -414,6 +414,11 @@ metadata.
 
 =for readme continue
 
+=head1 SECURITY CONSIDERATIONS
+
+The L</Data Files> are by default Perl code that are run by C<eval>.
+It is assumed that the authors writing tests with this module and using files that they have created or from a trusted source.
+
 =head1 SEE ALSO
 
 L<Test::Roo>

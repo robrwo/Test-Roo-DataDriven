@@ -282,6 +282,11 @@ used in the ["Data Files"](#data-files).  To work around this, use the modules a
 well in the test class or explicitly add them to the distribution's
 metadata.
 
+# SECURITY CONSIDERATIONS
+
+The ["Data Files"](#data-files) are by default Perl code that are run by `eval`.
+It is assumed that the authors writing tests with this module and using files that they have created or from a trusted source.
+
 # SEE ALSO
 
 [Test::Roo](https://metacpan.org/pod/Test%3A%3ARoo)
